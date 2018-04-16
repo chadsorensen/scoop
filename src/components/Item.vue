@@ -1,10 +1,10 @@
 <template>
   <md-list-item class="story">
-    <span class="score">{{ story.data.score }}</span>
+    <span class="index">{{ index | increaseIndex }}</span>
 
     <div class="md-list-item-text">
       <span class="title">{{ story.data.title }}</span>
-      <span>by {{ story.data.by }} | {{ story.data.time | timeFormat }} Ago</span>
+      <p>by {{ story.data.by }} | {{ story.data.time | timeFormat }} Ago | <span class="score">{{ story.data.score }}pts</span></p>
     </div>
     
     <md-button class="md-icon-button md-list-action">
@@ -24,6 +24,7 @@ export default {
   name: 'Item',
   props: [
     'story',
+    'index'
   ],
   data() {
     return {
@@ -31,13 +32,29 @@ export default {
     };
   },
   filters: {
+    increaseIndex(index) {
+      console.log("index", index);
+      return index += 1;
+    },
     timeFormat(time) {
-      return moment(time).format("M.D.YY");
-      console.log("time", time);
-      let now = Date.now();
-      console.log("now", now);
-      console.log("36e5 * 5", 36e5 * 5)
-      // return moment(moment() + (36e5 * 5)).twitterShort()
+      const between = Date.now() / 1000 - Number(time)
+      switch(true) {
+        case between < 3600:
+          return pluralize(~~(between / 60), ' minute')
+          break;
+        case between < 86400:
+          return pluralize(~~(between / 3600), ' hour')
+          break;
+        default:
+          return pluralize(~~(between / 86400), ' day')
+      }
+      function pluralize (time, label) {
+        if (time === 1) {
+          return time + label
+        }
+        return time + label + 's'
+      }
+
     },
   },
   methods: {
@@ -55,7 +72,7 @@ li {
   position: relative;
   line-height: 20px;
 }
-.score{
+.index {
   width: 40px;
   height: 40px;
   margin-right: 40px;
@@ -67,6 +84,9 @@ li {
   border-radius: 100%;
   text-align: center;
 }
+/*.score {
+  color: #00cc93;
+}*/
 .story a {
   color: #34495e;
   font-weight: 600;
