@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <item v-for="story in stories" :key="story.id" :story="story"></item>
+    <md-list class="md-double-line">
+      <item v-for="story in stories" :key="story.id" :story="story"></item>
+    </md-list>
   </div>
 </template>
 
@@ -25,7 +27,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 h1, h2 {
   font-weight: normal;
 }
@@ -38,6 +40,6 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #42b983;
+  color: #202020;
 }
 </style>

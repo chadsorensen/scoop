@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <item v-for="story in stories" :key="story.data.id" :story="story"></item>
+    <md-list class="md-double-line">
+      <item v-for="story in stories" :key="story.data.id" :story="story"></item>
+    </md-list>
   </div>
 </template>
 
